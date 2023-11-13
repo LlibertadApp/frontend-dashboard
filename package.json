@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@mui/material": "^5.14.17",
+    "@phosphor-icons/react": "^2.0.14",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5"
+  }
+}
