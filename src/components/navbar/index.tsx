@@ -28,7 +28,7 @@ const Navbar: React.FC<INavbarProps> = ({
 }) => {
   
   const { menuOpen, setMenuOpen, closeMenu } = useHamburgerMenu();
-  const hamburgerMenuRef = useState(closeMenu);
+  const hamburgerMenuRef = useState<HTMLDivElement | null>(null);
   return (
 
     <div className="bg-violet-primary p-[10px] px-4 w-full flex flex-col h-18 relative z-20 lg:items-center">
