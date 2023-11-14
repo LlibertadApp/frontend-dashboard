@@ -9,7 +9,6 @@ import { ButtonClearFilter } from '../../components/buttonClearFilter';
 import { ListFilters } from '../../components/listFilters';
 
 import Button from '../../components/button';
-import Navbar from '../../components/navbar/index';
 import { paths } from '../../routes/paths';
 
 const customFilters: Filter[] = [
@@ -52,7 +51,6 @@ const TotalResults = () => {
   const votes = ['16,482,688', '10,517,312'];
   return (
     <div className="bg-white h-screen flex flex-col">
-      <Navbar/>
       <div className="flex flex-col p-4">
         <p className="font-bold text-[32px] text-violet-primary mt-[16px]">
           BALOTAJE
