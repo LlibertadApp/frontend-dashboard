@@ -1,4 +1,4 @@
-import { Filter } from '#/context/FilterContext';
+import { Filter } from '../../context/FilterContext';
 import { FC } from 'react';
 import { FilterBadge } from '../filterBadge';
 
