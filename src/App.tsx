@@ -1,20 +1,22 @@
-import AppRoutes from './routes/routes'
-import './App.css'
-import { FilterProvider } from './context/FilterContext';
-import { HamburgerProvider } from './context/HamburgerContext';
+import AppRoutes from "./routes/routes";
+import "./App.css";
+import { LoadingPage } from "./pages/loading-page";
+import { FilterProvider } from "./context/FilterContext";
+import { HamburgerProvider } from "./context/HamburgerContext";
+import { Suspense } from "react";
 
 function App() {
-
   return (
-    <HamburgerProvider>
-
-      <FilterProvider>
-        <AppRoutes />
-      </FilterProvider>
-      
-    </HamburgerProvider>
-
-  )
+    <>
+      <Suspense fallback={<LoadingPage />}>
+        <HamburgerProvider>
+          <FilterProvider>
+            <AppRoutes />
+          </FilterProvider>
+        </HamburgerProvider>
+      </Suspense>
+    </>
+  );
 }
 
 export default App;
