@@ -98,11 +98,14 @@ const WelcomePage: React.FC = () => {
         />
         <div className="flex flex-col justify-center items-center h-screen">
           <div className="flex flex-col justify-center items-center relative text-white ">
-            <p>Bienvenido al panel de resultados de</p>
+            <p className="mb-4">Bienvenido al panel de resultados de</p>
             <h2 className="font-bold text-4xl">LibertApp</h2>
           </div>
-          <div className="img-container relative my-2">
-            <a href={paths.totalResults} className="flex justify-center img-link">
+          <div className="img-container relative">
+            <a
+              href={paths.totalResults}
+              className="flex justify-center img-link"
+            >
               <div className="overlay rounded-full">
                 <p className="overlay-text">Ingresar</p>
               </div>

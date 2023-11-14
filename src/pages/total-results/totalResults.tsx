@@ -7,7 +7,7 @@ import { Filter, useFilter } from '../../context/FilterContext';
 import { ButtonFilter } from '../../components/buttonFilter';
 import { ButtonClearFilter } from '../../components/buttonClearFilter';
 import { ListFilters } from '../../components/listFilters';
-
+ 
 import Button from '../../components/button';
 import { paths } from '../../routes/paths';
 
@@ -47,29 +47,32 @@ const TotalResults = () => {
     setFilters(customFilters);
   }, []);
 
-  const percentages = [61.05, 38.95];
+  const percentages = [81.05, 18.95];
   const votes = ['16,482,688', '10,517,312'];
   return (
     <div className="bg-white h-screen flex flex-col">
-      <div className="flex flex-col p-4">
-        <p className="font-bold text-[32px] text-violet-primary mt-[16px]">
+      <div className="flex flex-col p-4 lg:px-60">
+        <p className="font-bold text-[32px] text-violet-primary mt-[16px] self-center">
           BALOTAJE
         </p>
 
         {/* Sección de botones */}
-        <section className="flex flex-1 flex-row gap-5 mb-4">
+        <section className="flex flex-1 flex-row gap-5 mb-4 ">
           {filters.length > 0 && (
             <ButtonClearFilter
               amountOfFilters={filters.length}
               clearFilters={clearFilters}
             />
           )}
-          <button className='w-full' onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}>
+          <button
+            className="w-full"
+            onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}
+          >
             <ButtonFilter amount={filters.length} />
           </button>
         </section>
 
-        <div>
+        <div className="flex self-center">
           <ListFilters filters={filters} />
         </div>
 
@@ -77,7 +80,7 @@ const TotalResults = () => {
         {isFilterMenuOpen && (
           <div
             className={`fixed bottom-0 left-0 right-0 mx-auto my-auto bg-white p-2 rounded-3xl shadow-md border-t border-gray-300 z-10 transition-all duration-300 backdrop-filter  ${
-              isFilterMenuOpen ? 'max-h-[82%]' : 'h-0'
+              isFilterMenuOpen ? "max-h-[82%]" : "h-0"
             } overflow-y-auto`}
           >
             <div className="flex flex-row gap-2 justify-between items-center px-4 py-2">
@@ -93,7 +96,6 @@ const TotalResults = () => {
             </div>
 
             <FilterPage />
-
           </div>
         )}
       </div>
@@ -135,7 +137,7 @@ const TotalResults = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="flex flex-col border rounded-2xl">
           <div className="flex flex-col">
             <div className="flex flex-row pl-4 pt-4 pr-4 pb-2 justify-between">
@@ -170,9 +172,9 @@ const TotalResults = () => {
           </div>
         </div>
       </div>
-      <div className="border border-t-1 border-gray-dark mt-10"></div>
-      <div className="flex flex-col px-4 py-5 lg:px-60 gap-10 leading-5">
-        <div className="flex flex-col">
+      <div className="lg:flex lg:self-center border border-t-1 border-gray-dark mt-10 lg:w-[60vw] lg:px-60"></div>
+      <div className="flex flex-row flex-wrap justify-center items-center px-4 py-5 lg:px-60 gap-10 leading-5 ">
+        <div className="flex flex-col ">
           <span className="text-sm text-gray-dark">Total de votos</span>
           <span className="text-[22px] font-bold text-text-off">
             27,000,000
