@@ -102,14 +102,14 @@ const WelcomePage: React.FC = () => {
             <h2 className="font-bold text-4xl">LibertApp</h2>
           </div>
           <div className="img-container relative my-2">
-            <a href={paths.totalResults} className="img-link">
+            <a href={paths.totalResults} className="flex justify-center img-link">
               <div className="overlay rounded-full">
                 <p className="overlay-text">Ingresar</p>
               </div>
               <img
                 src="assets/logos/fenix-login.svg"
                 alt="fenix"
-                className="object-cover h-auto rounded img-item"
+                className="object-cover h-auto rounded img-item px-[40px]"
               />
             </a>
           </div>

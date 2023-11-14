@@ -1,15 +1,18 @@
 .overlay {
   position: absolute;
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.1);
+  height: 50%;
+  top: 30px;
+  background: #fefdff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #fff;
+  color: #61439d;
   opacity: 1;
-  transition: opacity 0.5s ease-out, transform 0.5s ease;
+  transition: opacity 0.5s ease-out, transform 0.5s ease,
+    border-radius 0.5s ease;
+  border: 0.1em solid #8B6ACE;
   z-index: 5;
 }
 
@@ -20,11 +23,12 @@
 .img-container .overlay {
   opacity: 1;
   transform: scale(100%);
+  border-radius: 10px;
 }
 
 .img-container img {
   opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease; /* Añadida transición para la opacidad */
+  transition: opacity 0.5s ease, transform 0.5s ease;
   border-radius: 100%;
   border: 4px solid transparent;
 }
@@ -35,23 +39,23 @@
 }
 
 .img-container:hover .overlay {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
   opacity: 0;
-  transform: scale(105%);
+  transition: 0.4s ease;
 }
 
 .img-container:hover img {
-  transform: 0.5s ease;
-  border: 4px solid #714fb6;
+  transform: scale(1.2);
   opacity: 1;
-  transform: scale(95%);
 }
 
 .img-container:not(:hover) .overlay {
   opacity: 1;
-  transform: scale(100%);
+  transform: scale(1);
+  border-radius: 10px;
 }
 
 .img-container:not(:hover) img {
   opacity: 0;
-  transform: scale(100%);
+  transform: scale(1);
 }
