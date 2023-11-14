@@ -1,19 +1,121 @@
-import React from "react";
+import { useCallback } from "react";
+import type { Container, Engine } from "tsparticles-engine";
 import { paths } from "../../routes/paths";
-const welcomePage: React.FC = () => {
+import Particles from "react-particles";
+import { loadSlim } from "tsparticles-slim";
+import "./index.css";
+
+const WelcomePage: React.FC = () => {
+  const particlesInit = useCallback(async (engine: Engine) => {
+    await loadSlim(engine);
+  }, []);
+
+  const particlesLoaded = useCallback(
+    async (container: Container | undefined) => {
+      await console.warn(
+        "Animación en curso? ",
+        container?.started ? "Si" : "No"
+      );
+    },
+    []
+  );
   return (
     <>
-      <section className="h-screen">
-        <div className="flex flex-col justify-center items-center h-full">
-          <p>Bienvenido al panel de resultados de</p>
-          <h2 className=" font-bold text-4xl">LibertApp</h2>
-          <a href={paths.totalResults}>
-            <button> Ingresar</button>
-          </a>
+      <section>
+        <Particles
+          id="tsparticles"
+          init={particlesInit}
+          loaded={particlesLoaded}
+          options={{
+            background: {
+              color: {
+                value: "#61439D",
+              },
+            },
+            fpsLimit: 80,
+            interactivity: {
+              events: {
+                onClick: {
+                  enable: true,
+                  mode: "push",
+                },
+                onHover: {
+                  enable: true,
+                  mode: "repulse",
+                },
+                resize: true,
+              },
+              modes: {
+                push: {
+                  quantity: 1,
+                },
+                repulse: {
+                  distance: 15,
+                  duration: 0.1,
+                },
+              },
+            },
+            particles: {
+              color: {
+                value: "#ffffff",
+              },
+              links: {
+                color: "#ffffff",
+                distance: 150,
+                enable: true,
+                opacity: 0.5,
+                width: 1,
+              },
+              move: {
+                direction: "none",
+                enable: true,
+                outModes: {
+                  default: "bounce",
+                },
+                random: false,
+                speed: 0.2,
+                straight: false,
+              },
+              number: {
+                density: {
+                  enable: true,
+                  area: 800,
+                },
+                value: 80,
+              },
+              opacity: {
+                value: 0.5,
+              },
+              shape: {
+                type: "circle",
+              },
+              size: {
+                value: { min: 1, max: 5 },
+              },
+            },
+            detectRetina: true,
+          }}
+        />
+        <div className="flex flex-col justify-center items-center h-screen">
+          <div className="flex flex-col justify-center items-center relative text-white ">
+            <p>Bienvenido al panel de resultados de</p>
+            <h2 className="font-bold text-4xl">LibertApp</h2>
+          </div>
+          <div className="img-container relative ">
+            <a href={paths.totalResults} className="img-link">
+              <div className="overlay rounded-full">
+                <p className="overlay-text">Ingresar</p>
+              </div>
+              <img
+                src="assets/logos/fenix-login.svg"
+                alt="fenix"
+                className="object-cover h-auto rounded img-item"
+              />
+            </a>
+          </div>
         </div>
       </section>
     </>
   );
 };
-
-export default welcomePage;
+export default WelcomePage;

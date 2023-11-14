@@ -1,0 +1,57 @@
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  opacity: 1;
+  transition: opacity 0.5s ease-out, transform 0.5s ease;
+  z-index: 5;
+}
+
+.overlay-text {
+  font-size: 1.5rem;
+}
+
+.img-container .overlay {
+  opacity: 1;
+  transform: scale(100%);
+}
+
+.img-container img {
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease; /* Añadida transición para la opacidad */
+  border-radius: 100%;
+  border: 4px solid transparent;
+}
+
+.img-container a {
+  text-decoration: none;
+  outline: none;
+}
+
+.img-container:hover .overlay {
+  opacity: 0;
+  transform: scale(105%);
+}
+
+.img-container:hover img {
+  transform: 0.5s ease;
+  border: 4px solid #714fb6;
+  opacity: 1;
+  transform: scale(95%);
+}
+
+.img-container:not(:hover) .overlay {
+  opacity: 1;
+  transform: scale(100%);
+}
+
+.img-container:not(:hover) img {
+  opacity: 0;
+  transform: scale(100%);
+}
