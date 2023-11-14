@@ -101,7 +101,7 @@ const WelcomePage: React.FC = () => {
             <p>Bienvenido al panel de resultados de</p>
             <h2 className="font-bold text-4xl">LibertApp</h2>
           </div>
-          <div className="img-container relative ">
+          <div className="img-container relative my-2">
             <a href={paths.totalResults} className="img-link">
               <div className="overlay rounded-full">
                 <p className="overlay-text">Ingresar</p>
