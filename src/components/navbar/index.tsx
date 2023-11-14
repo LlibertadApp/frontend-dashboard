@@ -28,7 +28,6 @@ const Navbar: React.FC<INavbarProps> = ({
 }) => {
   
   const { menuOpen, setMenuOpen, closeMenu } = useHamburgerMenu();
-  const hamburgerMenuRef = useState<HTMLDivElement | null>(null);
   return (
 
     <div className="bg-violet-primary p-[10px] px-4 w-full flex flex-col h-18 relative z-20 lg:items-center">
@@ -45,7 +44,7 @@ const Navbar: React.FC<INavbarProps> = ({
           </div>
           <div
             className="flex flex-col justify-center z-20 lg:max-w-md"
-            ref={hamburgerMenuRef}
+            ref=""
           >
             {showHamburger && (
               <div
