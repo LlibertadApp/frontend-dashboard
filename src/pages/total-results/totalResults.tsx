@@ -1,50 +1,21 @@
 import { useEffect, useState } from "react";
 
-import { X, ArrowRight, Path } from "@phosphor-icons/react";
+import { X } from "@phosphor-icons/react";
 
-import { FilterPage } from "../../pages/filter-results/filterResults";
+import FilterPage from "../../pages/filter-results/filterResults";
 import { Filter, useFilter } from "../../context/FilterContext";
 import { ButtonFilter } from "../../components/buttonFilter";
 import { ButtonClearFilter } from "../../components/buttonClearFilter";
 import { ListFilters } from "../../components/listFilters";
 
 import Button from "../../components/button";
-import { paths } from "../../routes/paths";
-
-const customFilters: Filter[] = [
-  {
-    id: "1",
-    name: "distrito",
-    value: "Buenos Aires",
-  },
-  {
-    id: "2",
-    name: "seccion_electoral",
-    value: "Sección Tercera",
-  },
-  {
-    id: "3",
-    name: "seccion",
-    value: "Lanus",
-  },
-  {
-    id: "4",
-    name: "municipio",
-    value: "771D",
-  },
-  {
-    id: "5",
-    name: "municipio",
-    value: "00669/9",
-  },
-];
 
 const TotalResults = () => {
   const { filters, clearFilters, setFilters } = useFilter();
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
 
   useEffect(() => {
-    setFilters(customFilters);
+    setFilters(filters);
   }, []);
 
   const percentages = [0, 0];
@@ -188,17 +159,15 @@ const TotalResults = () => {
       <div className="flex flex-row flex-wrap justify-center items-center px-4 py-5 lg:px-60 gap-10 leading-5 ">
         <div className="flex flex-col ">
           <span className="text-sm text-gray-dark">Total de votos</span>
-          <span className="text-[22px] font-bold text-text-off">
-            27,000,000
-          </span>
+          <span className="text-[22px] font-bold text-text-off">0</span>
         </div>
         <div className="flex flex-col">
           <span className="text-sm text-gray-dark">Mesas escrutadas</span>
-          <span className="text-[22px] font-bold text-text-off">90.00%</span>
+          <span className="text-[22px] font-bold text-text-off">0.00%</span>
         </div>
         <div className="flex flex-col">
           <span className="text-sm text-gray-dark">Participación</span>
-          <span className="text-[22px] font-bold text-text-off">76.36%</span>
+          <span className="text-[22px] font-bold text-text-off">0.00%</span>
         </div>
       </div>
 
