@@ -3,12 +3,14 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { paths } from "./paths";
 import LoadingPage from "../pages/loading-page/loadingPage";
 
+
 const NotFound = lazy(() => import("../pages/not-found/notFound"));
 const Welcome = lazy(() => import("../pages/welcome/welcomePage"));
 
 const AppRoutes: React.FC = () => {
   const location = useLocation();
 
+  // Obtener el componente deseado de acuerdo con la ruta
   const getPageComponent = () => {
     console.log(location.pathname);
     switch (location.pathname) {
