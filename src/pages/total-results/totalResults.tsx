@@ -88,7 +88,7 @@ const TotalResults = () => {
                 </div>
               </div>
 
-              <FilterPage setIsFilterMenuOpen={setIsFilterMenuOpen} />
+              <FilterPage  />
             </div>
           </>
         )}
@@ -154,7 +154,7 @@ const TotalResults = () => {
           </div>
           <div className="flex-col pb-4 pr-4 pl-4 pt-2 items-center">
             <div className="rounded-md h-1 bg-gray-light">
-              <div 
+              <div
                 className={`h-full bg-party-uxp rounded-l`}
                 style={{ width: `${percentages[1]}%` }}
               ></div>
