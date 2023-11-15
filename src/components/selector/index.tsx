@@ -4,7 +4,7 @@ import Arrow from "/assets/icons/arrow-continue.svg";
 interface ISelectorProps {
   onChange: (e: any) => void;
   label: string;
-  options: { key: string; label: string }[];
+  options: { key: number; label: string }[];
   value: string;
 }
 
@@ -21,7 +21,7 @@ const ArrowIcon = ({ className }: { className: string }) => {
 export function Selector({ onChange, label, options, value }: ISelectorProps) {
   return (
     <Autocomplete
-      value={options.find((option) => option.key === value) || null}
+      value={options.find((option) => option.key === Number(value)) || null}
       onChange={(e, newValue) =>
         onChange({ target: { value: newValue?.key || "" } })
       }
