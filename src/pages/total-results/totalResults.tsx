@@ -91,7 +91,7 @@ const TotalResults = () => {
                 </div>
               </div>
 
-              <FilterPage />
+              <FilterPage setIsFilterMenuOpen={setIsFilterMenuOpen} />
             </div>
           </>
         )}

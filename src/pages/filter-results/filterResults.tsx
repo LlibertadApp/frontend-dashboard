@@ -13,7 +13,11 @@ import {
   tables,
 } from "../../mocks/_mocks";
 
-const FilterPage = () => {
+interface FilterPageProps {
+  setIsFilterMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const FilterPage: React.FC<FilterPageProps> = ({ setIsFilterMenuOpen }) => {
   const { filters, setFilters, clearFilters } = useFilter();
   const [distrito, setDistrito] = useState<string>("");
   const [seccionElectoral, setSeccionElectoral] = useState<string>("");
@@ -34,7 +38,6 @@ const FilterPage = () => {
   }, []);
 
   const aplicarFiltros = useCallback(() => {
-    // Return early if none of the filter values are set
     !distrito &&
     !seccionElectoral &&
     !seccion &&
@@ -43,7 +46,7 @@ const FilterPage = () => {
     !establecimiento &&
     !mesa
       ? null
-      : setFilters([
+      : (setFilters([
           {
             id: "N° Distrito",
             name: "Distrito",
@@ -93,7 +96,8 @@ const FilterPage = () => {
             name: "Mesa",
             value: tables.find((t) => t.key === parseInt(mesa))?.label || "",
           },
-        ]);
+        ]),
+        setIsFilterMenuOpen(false));
   }, [
     distrito,
     seccionElectoral,
@@ -103,6 +107,7 @@ const FilterPage = () => {
     establecimiento,
     mesa,
     setFilters,
+    setIsFilterMenuOpen,
   ]);
 
   return (
