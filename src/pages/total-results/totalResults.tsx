@@ -98,14 +98,16 @@ const TotalResults = () => {
       </div>
 
       <div className="lg:px-60 px-3 flex flex-col gap-6">
-        {
-          //Card Javier, VLL
-        }
         {/* lla */}
         <div className="flex flex-col border rounded-2xl">
           <div className="flex flex-col">
             <div className="flex flex-row pl-4 pt-4 pr-4 pb-2 justify-between">
-              <img src="assets/logos/fenix.png" className="w-16 h-14" alt="" />
+              <img src="public\assets\images\Milei.png" alt="" />
+              <img
+                src="assets/logos/fenix.png"
+                className="w-[180px]  h-1/4"
+                alt=""
+              />
               <div className="flex flex-col items-end">
                 <span className={`text-[12px] text-gray-dark`}>
                   {formattedlla} votos
@@ -138,8 +140,13 @@ const TotalResults = () => {
         {/* uxp */}
         <div className="flex flex-col border rounded-2xl">
           <div className="flex flex-col">
-            <div className="flex flex-row pl-4 pt-4 pr-4 pb-2 justify-between">
-              <img src="assets/logos/uxp.svg" className="w-16 h-14" alt="" />
+            <div className="flex flex-row-reverse pl-4 pt-4 pr-4 pb-2 justify-between">
+              <img src="public\assets\images\Massa.png" alt="" />
+              <img
+                src="assets/logos/uxp.svg"
+                className="w-[250px] h-1/4"
+                alt=""
+              />
               <div className="flex flex-col items-end">
                 <span className={`text-[12px] text-gray-dark`}>
                   {formatteduxp} votos
