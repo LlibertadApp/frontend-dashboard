@@ -9,7 +9,7 @@ import { ButtonClearFilter } from "../../components/buttonClearFilter";
 import { ListFilters } from "../../components/listFilters";
 
 import Button from "../../components/button";
-
+import { getTotalResults, tablesProgress } from "../../mocks/_mocks";
 const TotalResults = () => {
   const { filters, clearFilters, setFilters } = useFilter();
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
@@ -17,8 +17,20 @@ const TotalResults = () => {
   useEffect(() => {
     setFilters(filters);
   }, []);
-  const percentages = [0, 0];
-  const votes = ["0", "0"];
+  const totalVotes = getTotalResults[0].voters;
+  const votes = [getTotalResults[0].lla, getTotalResults[0].uxp];
+  const percentages = votes.map((vote) =>
+    ((vote / totalVotes) * 100).toFixed(2)
+  );
+  const formattedTotalVotes = totalVotes.toLocaleString();
+  const tablesPercentages = (
+    (tablesProgress[0].current / tablesProgress[0].totalTables) *
+    100
+  ).toFixed(2);
+  const currentVoted = (
+    (getTotalResults[0].voted / getTotalResults[0].voters) *
+    100
+  ).toFixed(2);
   return (
     <div
       className={`bg-white h-screen flex flex-col ${
@@ -159,15 +171,21 @@ const TotalResults = () => {
       <div className="flex flex-row flex-wrap justify-center items-center px-4 py-5 lg:px-60 gap-10 leading-5 ">
         <div className="flex flex-col ">
           <span className="text-sm text-gray-dark">Total de votos</span>
-          <span className="text-[22px] font-bold text-text-off">0</span>
+          <span className="text-[22px] font-bold text-text-off">
+            {formattedTotalVotes}%
+          </span>
         </div>
         <div className="flex flex-col">
           <span className="text-sm text-gray-dark">Mesas escrutadas</span>
-          <span className="text-[22px] font-bold text-text-off">0.00%</span>
+          <span className="text-[22px] font-bold text-text-off">
+            {tablesPercentages}%
+          </span>
         </div>
         <div className="flex flex-col">
           <span className="text-sm text-gray-dark">Participación</span>
-          <span className="text-[22px] font-bold text-text-off">0.00%</span>
+          <span className="text-[22px] font-bold text-text-off">
+            {currentVoted}%
+          </span>
         </div>
       </div>
 

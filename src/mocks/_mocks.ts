@@ -102,3 +102,23 @@ export const getFilteredResults = [
     },
   },
 ];
+
+export const getTotalResults = [
+  {
+    voters: 26219718,
+    voted: 26200000,
+    uxp: 5508139,
+    lla: 17548468,
+    blank: 3131111,
+    null: 3131111,
+    disputed: 3131111,
+    identity: 3131111,
+    command: 3131111,
+  },
+];
+export const tablesProgress = [
+  {
+    totalTables: 104520,
+    current: 95900,
+  },
+];
