@@ -4,7 +4,7 @@ import { X } from "@phosphor-icons/react";
 
 import FilterPage from "../../pages/filter-results/filterResults";
 import Navbar from "../../components/navbar";
-import { Filter, useFilter } from "../../context/FilterContext";
+import { Filter, useFilter } from "../../context/FilterContext"; //Cuando esté el formato de la petición para el back, se usa Filter
 import { ButtonFilter } from "../../components/buttonFilter";
 import { ButtonClearFilter } from "../../components/buttonClearFilter";
 import { ListFilters } from "../../components/listFilters";

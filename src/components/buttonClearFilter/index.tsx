@@ -8,7 +8,7 @@ export interface ButtonClearFilterProps {
 
 export const ButtonClearFilter: FC<ButtonClearFilterProps> = ({
   clearFilters,
-  amountOfFilters,
+  amountOfFilters, //Aún no se usa pero se necesita
 }) => {
   return (
     <button

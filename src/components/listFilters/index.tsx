@@ -1,5 +1,5 @@
 // ListFilters.jsx
-import React from "react";
+import React from "react"; //Se usabá para las pruebas pero cuando tengamos la petición vuelve
 import { Filter } from "../../context/FilterContext";
 import { FC } from "react";
 import { FilterBadge } from "../filterBadge";

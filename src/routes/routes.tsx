@@ -1,26 +1,32 @@
-import TotalResults from "../pages/total-results/totalResults";
-import FilterResults from "../pages/filter-results/filterResults";
-import NotFound from "../pages/not-found/notFound";
-import Welcome from "../pages/welcome/welcomePage";
-import { lazy } from "react";
+import React, { lazy, Suspense } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { paths } from "./paths";
+import LoadingPage from "../pages/loading-page/loadingPage";
 
-const TotalResultsPage = lazy(
-  () => import("../pages/total-results/totalResults")
-);
+const NotFound = lazy(() => import("../pages/not-found/notFound"));
+const Welcome = lazy(() => import("../pages/welcome/welcomePage"));
 
 const AppRoutes: React.FC = () => {
   const location = useLocation();
+
+  // Obtener el componente deseado de acuerdo con la ruta
+  const getPageComponent = () => {
+    switch (location.pathname) {
+      case paths.index:
+        return <Welcome />;
+      default:
+        return <NotFound />;
+    }
+  };
+
   return (
     <Routes location={location} key={location.pathname}>
-      <Route path="*" element={<NotFound />} />
-      <Route path={paths.index} element={<Welcome />} />
       <Route
-        path={paths.filterResults}
-        element={<FilterResults />}
+        path="*"
+        element={
+          <Suspense fallback={<LoadingPage />}>{getPageComponent()}</Suspense>
+        }
       />
-      <Route path={paths.totalResults} element={<TotalResults />} />
     </Routes>
   );
 };
