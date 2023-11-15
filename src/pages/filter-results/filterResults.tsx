@@ -117,43 +117,43 @@ const FilterPage: React.FC<FilterPageProps> = ({ setIsFilterMenuOpen }) => {
           <div className="flex flex-col gap-4 py-2 " id="filter-list">
             <Selector
               label="Distrito"
-              onChange={(e) => setDistrito(e.target.value)} //@ts-ignore
+              onChange={(e) => setDistrito(e.target.value)} 
               options={districtsMock}
               value={distrito}
             />
             <Selector
               label="Sección Electoral"
-              onChange={(e) => setSeccionElectoral(e.target.value)} //@ts-ignore
+              onChange={(e) => setSeccionElectoral(e.target.value)} 
               options={electoralSectionsMock}
               value={seccionElectoral}
             />
             <Selector
               label="Sección"
-              onChange={(e) => setSeccion(e.target.value)} //@ts-ignore
+              onChange={(e) => setSeccion(e.target.value)} 
               options={sectionsMock}
               value={seccion}
             />
             <Selector
               label="Municipio"
-              onChange={(e) => setMunicipio(e.target.value)} //@ts-ignore
+              onChange={(e) => setMunicipio(e.target.value)}
               options={municipalitiesMock}
               value={municipio}
             />
             <Selector
               label="Circuito"
-              onChange={(e) => setCircuito(e.target.value)} //@ts-ignore
+              onChange={(e) => setCircuito(e.target.value)} 
               options={circuitsMock}
               value={circuito}
             />
             <Selector
               label="Establecimiento"
-              onChange={(e) => setEstablecimiento(e.target.value)} //@ts-ignore
+              onChange={(e) => setEstablecimiento(e.target.value)} 
               options={establishmentsMock}
               value={establecimiento}
             />
             <Selector
               label="Mesa"
-              onChange={(e) => setMesa(e.target.value)} //@ts-ignore
+              onChange={(e) => setMesa(e.target.value)} 
               options={tables}
               value={mesa}
             />

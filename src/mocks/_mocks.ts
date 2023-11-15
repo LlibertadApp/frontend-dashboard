@@ -5,9 +5,9 @@ export const districtsMock = [
 ];
 
 export const electoralSectionsMock = [
-  { key: 1, label: "Sección Capital 1" },
-  { key: 2, label: "Sección GBA 2" },
-  { key: 3, label: "Sección Córdoba 3" },
+  { key: 1, label: "CABA" },
+  { key: 2, label: "GBA" },
+  { key: 3, label: "Córdoba" },
 ];
 
 export const sectionsMock = [
