@@ -1,7 +1,5 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import './styles.css';
-import Arrow from '/assets/icons/arrow-continue.svg';
-
+import { Autocomplete, TextField } from "@mui/material";
+import Arrow from "/assets/icons/arrow-continue.svg";
 
 interface ISelectorProps {
   onChange: (e: any) => void;
@@ -14,7 +12,7 @@ const ArrowIcon = ({ className }: { className: string }) => {
   return (
     <div className="mr-4 w-10 h-10 relative">
       <div className={className}>
-        <img src={Arrow} className="rotate-90" />
+        <img src={Arrow} className="rotate-90" alt="Arrow" />
       </div>
     </div>
   );
@@ -22,28 +20,29 @@ const ArrowIcon = ({ className }: { className: string }) => {
 
 export function Selector({ onChange, label, options, value }: ISelectorProps) {
   return (
-    <FormControl fullWidth className="select">
-      <InputLabel>{label}</InputLabel>
-      <Select
-        label={label}
-        className="w-full text-black text-left"
-        IconComponent={ArrowIcon}
-        value={value}
-        onChange={onChange}
-        MenuProps={{
-          slotProps: {
-            paper: {
-              className: 'select-menu',
-            },
-          },
-        }}
-      >
-        {options.map((option) => (
-          <MenuItem key={option.key} value={option.key}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <Autocomplete
+      value={options.find((option) => option.key === value) || null}
+      onChange={(e, newValue) =>
+        onChange({ target: { value: newValue?.key || "" } })
+      }
+      options={options}
+      getOptionLabel={(option) => option.label}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={label}
+          variant="outlined"
+          fullWidth
+          style={{ borderRadius: "15px" }}
+        />
+      )}
+      isOptionEqualToValue={(option, value) => option.key === value.key}
+      className="select"
+      renderOption={(props, option) => (
+        <li {...props}>
+          <span>{option.label}</span>
+        </li>
+      )}
+    />
   );
 }

@@ -34,27 +34,66 @@ const FilterPage = () => {
   }, []);
 
   const aplicarFiltros = useCallback(() => {
-    // Create an array of filters with the selected values
-    const selectedFilters = [
-      { id: "distrito", name: "Distrito", value: distrito },
-      {
-        id: "seccionElectoral",
-        name: "Sección Electoral",
-        value: seccionElectoral,
-      },
-      { id: "seccion", name: "Sección", value: seccion },
-      { id: "municipio", name: "Municipio", value: municipio },
-      { id: "circuito", name: "Circuito", value: circuito },
-      {
-        id: "establecimiento",
-        name: "Establecimiento",
-        value: establecimiento,
-      },
-      { id: "mesa", name: "Mesa", value: mesa },
-    ];
-
-    // Set the filters in the context
-    setFilters(selectedFilters);
+    // Return early if none of the filter values are set
+    !distrito &&
+    !seccionElectoral &&
+    !seccion &&
+    !municipio &&
+    !circuito &&
+    !establecimiento &&
+    !mesa
+      ? null
+      : setFilters([
+          {
+            id: "distrito",
+            name: "Distrito",
+            value:
+              districtsMock.find((d) => d.key === parseInt(distrito))?.label ||
+              "",
+          },
+          {
+            id: "seccionElectoral",
+            name: "Sección Electoral",
+            value:
+              electoralSectionsMock.find(
+                (e) => e.key === parseInt(seccionElectoral)
+              )?.label || "",
+          },
+          {
+            id: "seccion",
+            name: "Sección",
+            value:
+              sectionsMock.find((s) => s.key === parseInt(seccion))?.label ||
+              "",
+          },
+          {
+            id: "municipio",
+            name: "Municipio",
+            value:
+              municipalitiesMock.find((m) => m.key === parseInt(municipio))
+                ?.label || "",
+          },
+          {
+            id: "circuito",
+            name: "Circuito",
+            value:
+              circuitsMock.find((c) => c.key === parseInt(circuito))?.label ||
+              "",
+          },
+          {
+            id: "establecimiento",
+            name: "Establecimiento",
+            value:
+              establishmentsMock.find(
+                (e) => e.key === parseInt(establecimiento)
+              )?.label || "",
+          },
+          {
+            id: "mesa",
+            name: "Mesa",
+            value: tables.find((t) => t.key === parseInt(mesa))?.label || "",
+          },
+        ]);
   }, [
     distrito,
     seccionElectoral,
