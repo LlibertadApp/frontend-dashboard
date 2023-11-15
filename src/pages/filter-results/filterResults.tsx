@@ -13,11 +13,8 @@ import {
   tables,
 } from "../../mocks/_mocks";
 
-interface FilterPageProps {
-  setIsFilterMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+const FilterPage: React.FC = () => {
 
-const FilterPage: React.FC<FilterPageProps> = ({ setIsFilterMenuOpen }) => {
   const { filters, setFilters, clearFilters } = useFilter();
   const [distrito, setDistrito] = useState<string>("");
   const [seccionElectoral, setSeccionElectoral] = useState<string>("");
@@ -46,7 +43,7 @@ const FilterPage: React.FC<FilterPageProps> = ({ setIsFilterMenuOpen }) => {
     !establecimiento &&
     !mesa
       ? null
-      : (setFilters([
+      : setFilters([
           {
             id: "N° Distrito",
             name: "Distrito",
@@ -96,8 +93,7 @@ const FilterPage: React.FC<FilterPageProps> = ({ setIsFilterMenuOpen }) => {
             name: "Mesa",
             value: tables.find((t) => t.key === parseInt(mesa))?.label || "",
           },
-        ]),
-        setIsFilterMenuOpen(false));
+        ]);
   }, [
     distrito,
     seccionElectoral,
@@ -107,7 +103,6 @@ const FilterPage: React.FC<FilterPageProps> = ({ setIsFilterMenuOpen }) => {
     establecimiento,
     mesa,
     setFilters,
-    setIsFilterMenuOpen,
   ]);
 
   return (
@@ -117,19 +112,19 @@ const FilterPage: React.FC<FilterPageProps> = ({ setIsFilterMenuOpen }) => {
           <div className="flex flex-col gap-4 py-2 " id="filter-list">
             <Selector
               label="Distrito"
-              onChange={(e) => setDistrito(e.target.value)} 
+              onChange={(e) => setDistrito(e.target.value)}
               options={districtsMock}
               value={distrito}
             />
             <Selector
               label="Sección Electoral"
-              onChange={(e) => setSeccionElectoral(e.target.value)} 
+              onChange={(e) => setSeccionElectoral(e.target.value)}
               options={electoralSectionsMock}
               value={seccionElectoral}
             />
             <Selector
               label="Sección"
-              onChange={(e) => setSeccion(e.target.value)} 
+              onChange={(e) => setSeccion(e.target.value)}
               options={sectionsMock}
               value={seccion}
             />
@@ -141,19 +136,19 @@ const FilterPage: React.FC<FilterPageProps> = ({ setIsFilterMenuOpen }) => {
             />
             <Selector
               label="Circuito"
-              onChange={(e) => setCircuito(e.target.value)} 
+              onChange={(e) => setCircuito(e.target.value)}
               options={circuitsMock}
               value={circuito}
             />
             <Selector
               label="Establecimiento"
-              onChange={(e) => setEstablecimiento(e.target.value)} 
+              onChange={(e) => setEstablecimiento(e.target.value)}
               options={establishmentsMock}
               value={establecimiento}
             />
             <Selector
               label="Mesa"
-              onChange={(e) => setMesa(e.target.value)} 
+              onChange={(e) => setMesa(e.target.value)}
               options={tables}
               value={mesa}
             />
