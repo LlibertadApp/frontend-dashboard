@@ -1,4 +1,3 @@
-
 const NotFoundPage = () => {
   return (
     <main>
@@ -13,7 +12,9 @@ const NotFoundPage = () => {
           Ups. La página que estás buscando no existe.
         </p>
         <a href="/">
-          <button> volver al inicio</button>
+          <button className="flex flex-row justify-center gap-[10px] bg-violet-brand text-white px-10 py-4 w-full rounded-xl tracking-wider hover:border-violet-light hover:bg-violet-dark my-4">
+            volver al inicio
+          </button>
         </a>
       </section>
     </main>
