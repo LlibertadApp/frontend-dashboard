@@ -4,14 +4,14 @@ const Navbar: React.FC = () => {
   return (
     <nav className="flex justify-center  bg-violet-brand p-4">
       <div className="container flex lg:justify-around justify-between items-center">
-        <a href="https://libertapp.net" className="text-white">
+        <a href="https://libertapp.net" className="text-white pr-10 md:pr-0">
           <img
             src="assets/logos/fenix-new.svg"
             alt="Logo"
             className="object-cover rounded w-[60px] h-[60px] cursor-pointer"
           />
         </a>
-        <div className="flex items-center space-x-10">
+        <div className="flex items-center md:space-x-10 space-x-2 gap-4 md:gap-0">
           <a href="https://lalibertadavanza.com.ar" className="text-white">
             ¿Cómo ser Fiscal de LLA?
           </a>
