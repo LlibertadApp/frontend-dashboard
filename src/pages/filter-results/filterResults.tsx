@@ -45,14 +45,14 @@ const FilterPage = () => {
       ? null
       : setFilters([
           {
-            id: "distrito",
+            id: "N° Distrito",
             name: "Distrito",
             value:
               districtsMock.find((d) => d.key === parseInt(distrito))?.label ||
               "",
           },
           {
-            id: "seccionElectoral",
+            id: "N° seccionElectoral",
             name: "Sección Electoral",
             value:
               electoralSectionsMock.find(
@@ -60,28 +60,28 @@ const FilterPage = () => {
               )?.label || "",
           },
           {
-            id: "seccion",
+            id: "N° seccion",
             name: "Sección",
             value:
               sectionsMock.find((s) => s.key === parseInt(seccion))?.label ||
               "",
           },
           {
-            id: "municipio",
+            id: "N° municipio",
             name: "Municipio",
             value:
               municipalitiesMock.find((m) => m.key === parseInt(municipio))
                 ?.label || "",
           },
           {
-            id: "circuito",
+            id: "N° circuito",
             name: "Circuito",
             value:
               circuitsMock.find((c) => c.key === parseInt(circuito))?.label ||
               "",
           },
           {
-            id: "establecimiento",
+            id: "N° establecimiento",
             name: "Establecimiento",
             value:
               establishmentsMock.find(
@@ -89,7 +89,7 @@ const FilterPage = () => {
               )?.label || "",
           },
           {
-            id: "mesa",
+            id: "N° mesa",
             name: "Mesa",
             value: tables.find((t) => t.key === parseInt(mesa))?.label || "",
           },

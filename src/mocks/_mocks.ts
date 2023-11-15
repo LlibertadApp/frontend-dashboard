@@ -39,3 +39,66 @@ export const tables = [
   { key: 2, label: "Mesa 052" },
   { key: 3, label: "Mesa 128" },
 ];
+
+export const getFilteredResults = [
+  {
+    combination1: [
+      "Ciudad Autónoma de Buenos Aires",
+      "Sección Capital 1",
+      "Barrio Norte",
+      "Avellaneda",
+      "Escuela 101",
+      "Circuito Norte",
+      "Mesa 034",
+    ],
+    totalVotes: {
+      uxp: 50,
+      lla: 125,
+      blank: 0,
+      null: 0,
+      disputed: 0,
+      identity: 0,
+      command: 0,
+    },
+  },
+  {
+    combination2: [
+      "Provincia de Buenos Aires",
+      "Sección GBA 2",
+      "La Plata",
+      "Rosario",
+      "Colegio 202",
+      "Circuito Sur",
+      "Mesa 052",
+    ],
+    totalVotes: {
+      uxp: 50,
+      lla: 125,
+      blank: 0,
+      null: 0,
+      disputed: 0,
+      identity: 0,
+      command: 0,
+    },
+  },
+  {
+    combination3: [
+      "Córdoba",
+      "Sección Córdoba 3",
+      "Villa María",
+      "San Isidro",
+      "Instituto 303",
+      "Circuito Oeste",
+      "Mesa 128",
+    ],
+    totalVotes: {
+      uxp: 50,
+      lla: 125,
+      blank: 0,
+      null: 0,
+      disputed: 0,
+      identity: 0,
+      command: 0,
+    },
+  },
+];

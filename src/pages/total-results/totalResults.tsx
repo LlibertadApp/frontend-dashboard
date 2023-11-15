@@ -17,7 +17,6 @@ const TotalResults = () => {
   useEffect(() => {
     setFilters(filters);
   }, []);
-
   const percentages = [0, 0];
   const votes = ["0", "0"];
   return (
@@ -87,6 +86,7 @@ const TotalResults = () => {
         {
           //Card Javier, VLL
         }
+        {/* lla */}
         <div className="flex flex-col border rounded-2xl">
           <div className="flex flex-col">
             <div className="flex flex-row pl-4 pt-4 pr-4 pb-2 justify-between">
@@ -120,7 +120,7 @@ const TotalResults = () => {
             </div>
           </div>
         </div>
-
+        {/* uxp */}
         <div className="flex flex-col border rounded-2xl">
           <div className="flex flex-col">
             <div className="flex flex-row pl-4 pt-4 pr-4 pb-2 justify-between">
