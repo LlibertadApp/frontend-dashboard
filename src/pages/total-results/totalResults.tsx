@@ -23,6 +23,8 @@ const TotalResults = () => {
     ((vote / totalVotes) * 100).toFixed(2)
   );
   const formattedTotalVotes = totalVotes.toLocaleString();
+  const formattedlla = getTotalResults[0].lla.toLocaleString();
+  const formatteduxp = getTotalResults[0].uxp.toLocaleString();
   const tablesPercentages = (
     (tablesProgress[0].current / tablesProgress[0].totalTables) *
     100
@@ -105,7 +107,7 @@ const TotalResults = () => {
               <img src="assets/logos/fenix.png" className="w-16 h-14" alt="" />
               <div className="flex flex-col items-end">
                 <span className={`text-[12px] text-gray-dark`}>
-                  {votes[0]} votos
+                  {formattedlla} votos
                 </span>
                 <p className={`font-bold uppercase text-violet-primary`}>
                   {percentages[0]}%
@@ -139,7 +141,7 @@ const TotalResults = () => {
               <img src="assets/logos/uxp.svg" className="w-16 h-14" alt="" />
               <div className="flex flex-col items-end">
                 <span className={`text-[12px] text-gray-dark`}>
-                  {votes[1]} votos
+                  {formatteduxp} votos
                 </span>
                 <p className={`font-bold uppercase text-uxp`}>
                   {percentages[1]}%
