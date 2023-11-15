@@ -1,7 +1,7 @@
 import { useState, lazy } from "react";
 import { useCallback } from "react";
 import type { Container, Engine } from "tsparticles-engine";
-import { paths } from "../../routes/paths";
+// import { paths } from "../../routes/paths"; Sin usar en está modificacion SPA
 import Particles from "react-particles";
 import { loadSlim } from "tsparticles-slim";
 import "./index.css";
