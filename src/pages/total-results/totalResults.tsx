@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { X } from "@phosphor-icons/react";
 
 import FilterPage from "../../pages/filter-results/filterResults";
+import Navbar from "../../components/navbar";
 import { Filter, useFilter } from "../../context/FilterContext";
 import { ButtonFilter } from "../../components/buttonFilter";
 import { ButtonClearFilter } from "../../components/buttonClearFilter";
 import { ListFilters } from "../../components/listFilters";
-
 import Button from "../../components/button";
 import { getTotalResults, tablesProgress } from "../../mocks/_mocks";
 const TotalResults = () => {
@@ -39,6 +39,7 @@ const TotalResults = () => {
         isFilterMenuOpen ? "overflow-hidden" : ""
       }`}
     >
+      <Navbar />
       <div className="flex flex-col p-4 lg:px-60">
         <p className="font-bold text-[32px] text-violet-primary mt-[16px] self-center">
           Balotaje - Elecciones Presidenciales 2023

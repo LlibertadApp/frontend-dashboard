@@ -112,43 +112,43 @@ const FilterPage = () => {
           <div className="flex flex-col gap-4 py-2 " id="filter-list">
             <Selector
               label="Distrito"
-              onChange={(e) => setDistrito(e.target.value)}
+              onChange={(e) => setDistrito(e.target.value)} //@ts-ignore
               options={districtsMock}
               value={distrito}
             />
             <Selector
               label="Sección Electoral"
-              onChange={(e) => setSeccionElectoral(e.target.value)}
+              onChange={(e) => setSeccionElectoral(e.target.value)} //@ts-ignore
               options={electoralSectionsMock}
               value={seccionElectoral}
             />
             <Selector
               label="Sección"
-              onChange={(e) => setSeccion(e.target.value)}
+              onChange={(e) => setSeccion(e.target.value)} //@ts-ignore
               options={sectionsMock}
               value={seccion}
             />
             <Selector
               label="Municipio"
-              onChange={(e) => setMunicipio(e.target.value)}
+              onChange={(e) => setMunicipio(e.target.value)} //@ts-ignore
               options={municipalitiesMock}
               value={municipio}
             />
             <Selector
               label="Circuito"
-              onChange={(e) => setCircuito(e.target.value)}
+              onChange={(e) => setCircuito(e.target.value)} //@ts-ignore
               options={circuitsMock}
               value={circuito}
             />
             <Selector
               label="Establecimiento"
-              onChange={(e) => setEstablecimiento(e.target.value)}
+              onChange={(e) => setEstablecimiento(e.target.value)} //@ts-ignore
               options={establishmentsMock}
               value={establecimiento}
             />
             <Selector
               label="Mesa"
-              onChange={(e) => setMesa(e.target.value)}
+              onChange={(e) => setMesa(e.target.value)} //@ts-ignore
               options={tables}
               value={mesa}
             />
