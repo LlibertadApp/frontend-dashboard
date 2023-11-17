@@ -40,19 +40,19 @@ const TotalResults = () => {
       }`}
     >
       <Navbar />
-      <div className="flex flex-col p-4 lg:px-60 justify-center items-center">
+      <div className="flex flex-col p-4 sm:px-20 md:px-40 lg:px-60 justify-center items-center">
         <p className="font-bold text-[32px] text-violet-primary mt-[16px] self-center">
           BALOTAJE
         </p>
         {/* Sección de botones */}
-        <section className="flex gap-5 mb-4 ">
+        <section className="flex flex-col mb-4 sm:flex-row sm:gap-5">
           {filters.length > 0 && (
             <ButtonClearFilter
               amountOfFilters={filters.length}
               clearFilters={clearFilters}
             />
           )}
-          <button onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}>
+          <button className="-mt-4 sm:mt-0" onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}>
             <ButtonFilter amount={filters.length} />
           </button>
         </section>
@@ -177,19 +177,19 @@ const TotalResults = () => {
 
       <div className="lg:flex lg:self-center border border-t-1 border-gray-disabled mt-10 lg:w-96 lg:px-72"></div>
       <div className="flex flex-row flex-wrap justify-center items-center px-4 py-5 lg:px-60 gap-10 leading-5 ">
-        <div className="flex flex-col ">
+        <div className="flex flex-col text-center gap-2">
           <span className="text-sm text-gray-dark">Total de votos</span>
           <span className="text-[22px] font-bold text-text-off">
-            {formattedTotalVotes}%
+            {formattedTotalVotes}
           </span>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col text-center gap-2">
           <span className="text-sm text-gray-dark">Mesas escrutadas</span>
           <span className="text-[22px] font-bold text-text-off">
             {tablesPercentages}%
           </span>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col text-center gap-2">
           <span className="text-sm text-gray-dark">Participación</span>
           <span className="text-[22px] font-bold text-text-off">
             {currentVoted}%
