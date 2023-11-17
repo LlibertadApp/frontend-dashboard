@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-} from 'react';
+import { createContext, useContext, ReactNode, useState } from 'react';
 
 export interface Filter {
   id: string;
@@ -12,11 +7,12 @@ export interface Filter {
 }
 
 interface FilterContextType {
+  menuOpen: boolean;
   filters: Filter[];
   setFilters: (filters: Filter[]) => void;
   clearFilters: () => void;
+  setMenuOpen: (menuOpen: boolean) => void;
 }
-
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined);
 
@@ -26,13 +22,20 @@ interface FilterProviderProps {
 
 export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
   const [filters, setFilters] = useState<Filter[]>([]);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
 
   const clearFilters = () => {
     setFilters([]);
-  }
+  };
 
   return (
-    <FilterContext.Provider value={{ filters, setFilters, clearFilters }}>
+    <FilterContext.Provider
+      value={{ menuOpen, filters, setFilters, clearFilters, setMenuOpen }}
+    >
       {children}
     </FilterContext.Provider>
   );

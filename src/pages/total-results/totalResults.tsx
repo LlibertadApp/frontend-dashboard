@@ -41,8 +41,7 @@ const customFilters: Filter[] = [
 ];
 
 const TotalResults = () => {
-  const { filters, clearFilters, setFilters } = useFilter();
-  const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
+  const { filters, clearFilters, setFilters, menuOpen, setMenuOpen } = useFilter();
 
   useEffect(() => {
     setFilters(customFilters);
@@ -52,9 +51,9 @@ const TotalResults = () => {
   const votes = ['16,482,688', '10,517,312'];
   return (
     <div className="bg-white h-screen flex flex-col">
-      <Navbar/>
-      <div className="flex flex-col p-4">
-        <p className="font-bold text-[32px] text-violet-primary mt-[16px]">
+      <Navbar />
+      <div className="flex flex-col p-4 max-w-xl mx-auto">
+        <p className="font-bold text-center text-[32px] text-violet-primary mt-[16px]">
           BALOTAJE
         </p>
 
@@ -66,7 +65,10 @@ const TotalResults = () => {
               clearFilters={clearFilters}
             />
           )}
-          <button className='w-full' onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}>
+          <button
+            className="w-full"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
             <ButtonFilter amount={filters.length} />
           </button>
         </section>
@@ -76,10 +78,10 @@ const TotalResults = () => {
         </div>
 
         {/* Menú de filtros (desplegable) */}
-        {isFilterMenuOpen && (
+        {menuOpen && (
           <div
             className={`fixed bottom-0 left-0 right-0 mx-auto my-auto bg-white p-2 rounded-3xl shadow-md border-t border-gray-300 z-10 transition-all duration-300 backdrop-filter  ${
-              isFilterMenuOpen ? 'max-h-[82%]' : 'h-0'
+              menuOpen ? 'max-h-[82%]' : 'h-0'
             } overflow-y-auto`}
           >
             <div className="flex flex-row gap-2 justify-between items-center px-4 py-2">
@@ -88,22 +90,18 @@ const TotalResults = () => {
               </p>
               <div
                 className="p-4 flex justify-end"
-                onClick={() => setIsFilterMenuOpen(false)}
+                onClick={() => setMenuOpen(false)}
               >
                 <X size={24} />
               </div>
             </div>
 
             <FilterPage />
-
           </div>
         )}
       </div>
 
       <div className="lg:px-60 px-3 flex flex-col gap-6">
-        {
-          //Card Javier, VLL
-        }
         <div className="flex flex-col border rounded-2xl">
           <div className="flex flex-col">
             <div className="flex flex-row pl-4 pt-4 pr-4 pb-2 justify-between">
@@ -137,7 +135,6 @@ const TotalResults = () => {
             </div>
           </div>
         </div>
-        
         <div className="flex flex-col border rounded-2xl">
           <div className="flex flex-col">
             <div className="flex flex-row pl-4 pt-4 pr-4 pb-2 justify-between">
@@ -173,18 +170,18 @@ const TotalResults = () => {
         </div>
       </div>
       <div className="border border-t-1 border-gray-dark mt-10"></div>
-      <div className="flex flex-col px-4 py-5 lg:px-60 gap-10 leading-5">
-        <div className="flex flex-col">
+      <div className="flex flex-col px-4 py-5 lg:px-60 gap-10 leading-5 items-center">
+        <div className="flex flex-col text-center">
           <span className="text-sm text-gray-dark">Total de votos</span>
           <span className="text-[22px] font-bold text-text-off">
             27,000,000
           </span>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col text-center">
           <span className="text-sm text-gray-dark">Mesas escrutadas</span>
           <span className="text-[22px] font-bold text-text-off">90.00%</span>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col text-center">
           <span className="text-sm text-gray-dark">Participación</span>
           <span className="text-[22px] font-bold text-text-off">76.36%</span>
         </div>
