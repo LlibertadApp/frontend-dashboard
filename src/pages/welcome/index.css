@@ -44,19 +44,10 @@
   transition: 0.4s ease;
 }
 
-.img-container:hover img {
-  transform: scale(1.1);
-  opacity: 1;
-}
 
 .img-container:not(:hover) .overlay {
   opacity: 1;
   transform: scale(1);
   border-radius: 10px;
   margin-top:10px
-}
-
-.img-container:not(:hover) img {
-  opacity: 0;
-  transform: scale(1);
 }
