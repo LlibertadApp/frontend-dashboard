@@ -10,6 +10,8 @@ import { ButtonClearFilter } from "../../components/buttonClearFilter";
 import { ListFilters } from "../../components/listFilters";
 import Button from "../../components/button";
 import { getTotalResults, tablesProgress } from "../../mocks/_mocks";
+import { ButtonViewIrregular } from "../../components/buttonViewIrregular/butonViewIrregular";
+
 const TotalResults = () => {
   const { filters, clearFilters, setFilters } = useFilter();
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
@@ -45,7 +47,7 @@ const TotalResults = () => {
           BALOTAJE
         </p>
         {/* Sección de botones */}
-        <section className="flex flex-col mb-4 sm:flex-row sm:gap-5">
+        <section className="flex flex-col  sm:flex-row sm:gap-5 pt-8">
           {filters.length > 0 && (
             <ButtonClearFilter
               amountOfFilters={filters.length}
@@ -54,6 +56,9 @@ const TotalResults = () => {
           )}
           <button className="-mt-4 sm:mt-0" onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}>
             <ButtonFilter amount={filters.length} />
+          </button>
+          <button className="-mt-4 sm:mt-0">
+          <ButtonViewIrregular amount={filters.length} />
           </button>
         </section>
 
