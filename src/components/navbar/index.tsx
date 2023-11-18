@@ -13,13 +13,7 @@ const Navbar: React.FC = () => {
         </a>
         <div className="flex items-center md:space-x-10 space-x-2 gap-4 md:gap-0">
           <a href="https://lalibertadavanza.com.ar" className="text-white">
-            ¿Cómo ser Fiscal de LLA?
-          </a>
-          <a
-            href="https://app.libertapp.net"
-            className="text-white font-bold text-lg"
-          >
-            WebApp
+            Quiero ser fiscal
           </a>
           <a href="/">
             <img
