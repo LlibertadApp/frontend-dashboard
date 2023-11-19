@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { X } from "@phosphor-icons/react";
-
+import axios from 'axios';
 import FilterPage from "../../pages/filter-results/filterResults";
 import Navbar from "../../components/navbar";
 import { Filter, useFilter } from "../../context/FilterContext"; //Cuando esté el formato de la petición para el back, se usa Filter
@@ -9,32 +9,86 @@ import { ButtonFilter } from "../../components/buttonFilter";
 import { ButtonClearFilter } from "../../components/buttonClearFilter";
 import { ListFilters } from "../../components/listFilters";
 import Button from "../../components/button";
-import { getTotalResults, tablesProgress } from "../../mocks/_mocks";
+import { tablesProgress } from "../../mocks/_mocks";
 import { ButtonViewIrregular } from "../../components/buttonViewIrregular/butonViewIrregular";
 
 const TotalResults = () => {
+
+
+  interface TotalResultsResponse {
+    votesTotal: number; // Asegúrate de que este tipo coincida con la estructura real de la respuesta
+    votesPartyA: number;
+    votesPartyB: number;
+    blank: number;
+    impugned: number;
+    command: number;
+    appealed: number;
+    challengedIdentity: number;
+    nullVotes: number;
+    voters: number;
+    voted: number;
+  }
+
+  let formattedlla: '' | null = null; // Declarada con un valor predeterminado o de tipo null
+  let formatteduxp: '' | null = null;
+
+  
   const { filters, clearFilters, setFilters } = useFilter();
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
+  const [totalResults, setTotalResults] = useState<TotalResultsResponse | null>(null);
+
+  useEffect(() => {
+    // Fetch data from your endpoint
+    const fetchData = async () => {
+
+      const endpoint = import.meta.env.VITE_REACT_backend_endpoint;
+      
+      try {
+        const totalResultsResponse = await axios.get(`${endpoint}/v1/actas`);
+        console.log(totalResultsResponse);
+        console.log(totalResultsResponse.data.blank);
+        setTotalResults(totalResultsResponse.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData(); // Call the fetchData function
+  }, []);
 
   useEffect(() => {
     setFilters(filters);
   }, []);
-  const totalVotes = getTotalResults[0].voters;
-  const votes = [getTotalResults[0].lla, getTotalResults[0].uxp];
-  const percentages = votes.map((vote) =>
-    ((vote / totalVotes) * 100).toFixed(2)
-  );
-  const formattedTotalVotes = totalVotes.toLocaleString();
-  const formattedlla = getTotalResults[0].lla.toLocaleString();
-  const formatteduxp = getTotalResults[0].uxp.toLocaleString();
+
+
+  const totalVotes = totalResults?.votesTotal;
+  const participation= totalResults?.voted;
+  const votes = [totalResults?.votesPartyA, totalResults?.votesPartyB];
+  
+  const percentages = votes.map((vote) => {
+    if (vote !== undefined && totalVotes !== undefined && !isNaN(vote) && !isNaN(totalVotes)) {
+      return ((vote / totalVotes) * 100).toFixed(2) + '%';
+    } else {
+      // Handle the case where vote or totalVotes is undefined or not a valid number
+      // You might want to return a default value or handle it according to your use case
+      return 'N/A';
+    }
+  });
+  
+
+  if (totalResults !== null && undefined ) {
+    const formattedlla = totalResults.votesPartyA.toLocaleString();
+    const formatteduxp = totalResults.votesPartyB.toLocaleString();
+  } else {
+    // Manejar el caso donde totalVotes es undefineds
+    console.error('totalVotes is undefined');
+  }
+
   const tablesPercentages = (
     (tablesProgress[0].current / tablesProgress[0].totalTables) *
     100
   ).toFixed(2);
-  const currentVoted = (
-    (getTotalResults[0].voted / getTotalResults[0].voters) *
-    100
-  ).toFixed(2);
+
   return (
     <div
       className={`bg-white h-screen flex flex-col ${
@@ -185,19 +239,19 @@ const TotalResults = () => {
         <div className="flex flex-col text-center gap-2">
           <span className="text-sm text-gray-dark">Total de votos</span>
           <span className="text-[22px] font-bold text-text-off">
-            {formattedTotalVotes}
+            {totalVotes}
           </span>
         </div>
         <div className="flex flex-col text-center gap-2">
           <span className="text-sm text-gray-dark">Mesas escrutadas</span>
           <span className="text-[22px] font-bold text-text-off">
-            {tablesPercentages}%
+            {percentages}
           </span>
         </div>
         <div className="flex flex-col text-center gap-2">
           <span className="text-sm text-gray-dark">Participación</span>
           <span className="text-[22px] font-bold text-text-off">
-            {currentVoted}%
+            {participation}%
           </span>
         </div>
       </div>
