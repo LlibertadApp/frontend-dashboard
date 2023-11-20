@@ -9,12 +9,13 @@ import { ButtonFilter } from "../../components/buttonFilter";
 import { ButtonClearFilter } from "../../components/buttonClearFilter";
 import { ListFilters } from "../../components/listFilters";
 import Button from "../../components/button";
-import { tablesProgress } from "../../mocks/_mocks";
 import { ButtonViewIrregular } from "../../components/buttonViewIrregular/butonViewIrregular";
 
 const TotalResults = () => {
 
 
+
+  {/* Interface de declaracion: */}
   interface TotalResultsResponse {
     votesTotal: number; // Asegúrate de que este tipo coincida con la estructura real de la respuesta
     votesPartyA: number;
@@ -27,26 +28,31 @@ const TotalResults = () => {
     nullVotes: number;
     voters: number;
     voted: number;
+    scrutinies: number;
   }
 
+
+
+  //(No se que hace esto precisamente)
   let formattedlla: '' | null = null; // Declarada con un valor predeterminado o de tipo null
   let formatteduxp: '' | null = null;
 
   
+
+  {/* Estados */}
   const { filters, clearFilters, setFilters } = useFilter();
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const [totalResults, setTotalResults] = useState<TotalResultsResponse | null>(null);
 
   useEffect(() => {
+
+
     // Fetch data from your endpoint
     const fetchData = async () => {
-
-      const endpoint = import.meta.env.VITE_REACT_backend_endpoint;
-      
+      const endpoint = 'https://public-api.libertapp.net/v1/summary';
       try {
-        const totalResultsResponse = await axios.get(`${endpoint}/v1/actas`);
-        console.log(totalResultsResponse);
-        console.log(totalResultsResponse.data.blank);
+        const totalResultsResponse = await axios.get(endpoint);
+        console.log(totalResultsResponse.data);
         setTotalResults(totalResultsResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -61,40 +67,28 @@ const TotalResults = () => {
   }, []);
 
 
-  const totalVotes = totalResults?.votesTotal;
-  const participation= totalResults?.voted;
-  const votes = [totalResults?.votesPartyA, totalResults?.votesPartyB];
+  const totalVotes = totalResults?.votesTotal ?? 0;
+  const participation= totalResults?.voted ?? 0;
+  const votes = [totalResults?.votesPartyA ?? 0, totalResults?.votesPartyB ?? 0 ];
+  const blank = [totalResults?.blank ?? 0];
+  const scrutinies = [totalResults?.scrutinies ?? 0];
+  const voted = [totalResults?.voted ?? 0];
+  const voters = [totalResults?.voters ?? 0];
+
   
   const percentages = votes.map((vote) => {
     if (vote !== undefined && totalVotes !== undefined && !isNaN(vote) && !isNaN(totalVotes)) {
-      return ((vote / totalVotes) * 100).toFixed(2) + '%';
+      return ((vote / totalVotes) * 100).toFixed(2);
     } else {
-      // Handle the case where vote or totalVotes is undefined or not a valid number
-      // You might want to return a default value or handle it according to your use case
-      return 'N/A';
+      // totalVotes is undefined or nan
+      return 'ERR';
     }
   });
-  
 
-  if (totalResults !== null && undefined ) {
-    const formattedlla = totalResults.votesPartyA.toLocaleString();
-    const formatteduxp = totalResults.votesPartyB.toLocaleString();
-  } else {
-    // Manejar el caso donde totalVotes es undefineds
-    console.error('totalVotes is undefined');
-  }
 
-  const tablesPercentages = (
-    (tablesProgress[0].current / tablesProgress[0].totalTables) *
-    100
-  ).toFixed(2);
-
+//harcodear distrito
   return (
-    <div
-      className={`bg-white h-screen flex flex-col ${
-        isFilterMenuOpen ? "overflow-hidden" : ""
-      }`}
-    >
+    <div className={`bg-white h-screen flex flex-col ${isFilterMenuOpen ? "overflow-hidden" : ""}`}>
       <Navbar />
       <div className="flex flex-col p-4 sm:px-20 md:px-40 lg:px-60 justify-center items-center">
         <p className="font-bold text-[32px] text-violet-primary mt-[16px] self-center">
@@ -102,12 +96,7 @@ const TotalResults = () => {
         </p>
         {/* Sección de botones */}
         <section className="flex flex-col  sm:flex-row sm:gap-5 pt-8">
-          {filters.length > 0 && (
-            <ButtonClearFilter
-              amountOfFilters={filters.length}
-              clearFilters={clearFilters}
-            />
-          )}
+          {filters.length > 0 && (<ButtonClearFilter amountOfFilters={filters.length} clearFilters={clearFilters}/>)}
           <button className="-mt-4 sm:mt-0" onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}>
             <ButtonFilter amount={filters.length} />
           </button>
@@ -120,40 +109,35 @@ const TotalResults = () => {
           <ListFilters filters={filters} />
         </div>
 
+
         {/* Menú de filtros (desplegable) */}
         {isFilterMenuOpen && (
           <>
             {/* Overlay que cubre toda la pantalla */}
-            <div
-              className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-20"
-              onClick={() => setIsFilterMenuOpen(false)}
-            ></div>
+            <div className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-20" onClick={() => setIsFilterMenuOpen(false)}></div>
 
             {/* Menú emergente */}
-            <div
-              className={`fixed bottom-0 left-0 right-0 mx-auto my-auto bg-white p-2 rounded-3xl shadow-md border-t border-gray-300 z-30 transition-all duration-300 backdrop-filter  ${
-                isFilterMenuOpen ? "max-h-[82%]" : "h-0"
-              } overflow-y-auto`}
-            >
+            <div className={`fixed bottom-0 left-0 right-0 mx-auto my-auto bg-white p-2 rounded-3xl shadow-md border-t border-gray-300 z-30 transition-all duration-300 backdrop-filter  
+            ${isFilterMenuOpen ? "max-h-[82%]" : "h-0" } overflow-y-auto`}>
               <div className="flex flex-row gap-2 justify-between items-center px-4 py-2">
                 <p className="font-bold text-[20px] text-violet-brand pt-2">
                   Filtros
                 </p>
-                <div
-                  className="p-4 flex justify-end"
-                  onClick={() => setIsFilterMenuOpen(false)}
-                >
+                <div className="p-4 flex justify-end" onClick={() => setIsFilterMenuOpen(false)}>
                   <X size={24} />
                 </div>
               </div>
-
               <FilterPage  />
             </div>
           </>
         )}
       </div>
+
+
+
       {/* Candidatos */}
       <div className="lg:px-60 px-3 flex flex-col md:flex-row justify-center items-center gap-6">
+        
         {/* lla */}
         <div className="flex md:flex-col border rounded-2xl md:w-[280px] h-[250px]  justify-between items-center">
           <div className="flex flex-col pl-4 pt-4 pr-4 pb-2 gap-5 items-center">
@@ -185,13 +169,12 @@ const TotalResults = () => {
             >
               LA LIBERTAD AVANZA
             </p>
-            <p
-              className={`text-[12px] text-center uppercase text-gray-dark flex items-center`}
-            >
+            <p className={`text-[12px] text-center uppercase text-gray-dark flex items-center`}>
               JAVIER MILEI - VICTORIA VILLARRUEL
             </p>
           </div>
         </div>
+        
         {/* uxp */}
         <div className="flex md:flex-col border rounded-2xl md:w-[280px] h-[250px] justify-between items-center">
           <div className="flex flex-col pl-4 pt-4 pr-4 pb-2 gap-5 items-center">
@@ -232,26 +215,32 @@ const TotalResults = () => {
         </div>
       </div>
 
+      
       {/* Otros datos */}
-
       <div className="lg:flex lg:self-center border border-t-1 border-gray-disabled mt-10 lg:w-96 lg:px-72"></div>
       <div className="flex flex-row flex-wrap justify-center items-center px-4 py-5 lg:px-60 gap-10 leading-5 ">
         <div className="flex flex-col text-center gap-2">
           <span className="text-sm text-gray-dark">Total de votos</span>
           <span className="text-[22px] font-bold text-text-off">
-            {totalVotes}
+          {totalVotes}
           </span>
         </div>
         <div className="flex flex-col text-center gap-2">
-          <span className="text-sm text-gray-dark">Mesas escrutadas</span>
+          <span className="text-sm text-gray-dark">Mesas cargadas</span>
           <span className="text-[22px] font-bold text-text-off">
-            {percentages}
+            {scrutinies}
           </span>
         </div>
         <div className="flex flex-col text-center gap-2">
-          <span className="text-sm text-gray-dark">Participación</span>
+          <span className="text-sm text-gray-dark">Participacion</span>
           <span className="text-[22px] font-bold text-text-off">
-            {participation}%
+          {voters}
+          </span>
+        </div>
+        <div className="flex flex-col text-center gap-2">
+          <span className="text-sm text-gray-dark">Votos en blanco</span>
+          <span className="text-[22px] font-bold text-text-off">
+          {blank}
           </span>
         </div>
       </div>
