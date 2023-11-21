@@ -1,11 +1,13 @@
 import { Autocomplete, TextField } from "@mui/material";
 import Arrow from "/assets/icons/arrow-continue.svg";
+import { KeyValueOrNull } from "#/pages/filter-results";
+import { Key } from "react";
 
 interface ISelectorProps {
   onChange: (e: any) => void;
   label: string;
-  options: { key: number; label: string }[];
-  value: string;
+  options: { key: Key; label: string }[];
+  value: KeyValueOrNull;
 }
 
 const ArrowIcon = ({ className }: { className: string }) => {
@@ -19,14 +21,16 @@ const ArrowIcon = ({ className }: { className: string }) => {
 };
 
 export function Selector({ onChange, label, options, value }: ISelectorProps) {
+  console.log(value)
   return (
     <Autocomplete
-      value={options.find((option) => option.key === Number(value)) || null}
-      onChange={(e, newValue) =>
-        onChange({ target: { value: newValue?.key || "" } })
+      value={value}
+      onChange={(e, newValue) => {
+        console.log('new value', newValue)
+        onChange(newValue)
+      }
       }
       options={options}
-      getOptionLabel={(option) => option.label}
       renderInput={(params) => (
         <TextField
           {...params}

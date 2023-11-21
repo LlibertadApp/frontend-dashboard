@@ -1,109 +1,281 @@
-import React, { useCallback, useState } from "react";
+import React, { Key, useCallback, useEffect, useState } from "react";
 import { useFilter } from "../../context/FilterContext";
-import { Trash, ArrowRight } from "@phosphor-icons/react";
 import { Selector } from "../../components/selector";
+import { CircuitoResponse, DistritoResponse, distritos, getCircuitoById, getDistritoById } from "../../services/tables";
+import { getCircuitsBySectionId, getElectoralSectionsFromDistritoObject, getEstablishmentsByCircuitObject, getMesasByEstablishmentId, getSectionsByElectoralSectionId } from "./helpers";
 import Button from "../../components/button";
-import {
-  districtsMock,
-  electoralSectionsMock,
-  sectionsMock,
-  municipalitiesMock,
-  establishmentsMock,
-  circuitsMock,
-  tables,
-} from "../../mocks/_mocks";
+import { ArrowRight, Trash } from "@phosphor-icons/react";
+
+export type KeyValue  ={ key: Key; label: string }
+export type KeyValueOrNull = KeyValue | null;
+
+type distrito = keyof typeof distritos;
+
 
 const FilterPage: React.FC = () => {
 
   const { filters, setFilters, clearFilters } = useFilter();
-  const [distrito, setDistrito] = useState<string>("");
-  const [seccionElectoral, setSeccionElectoral] = useState<string>("");
-  const [seccion, setSeccion] = useState<string>("");
-  const [municipio, setMunicipio] = useState<string>("");
-  const [circuito, setCircuito] = useState<string>("");
-  const [establecimiento, setEstablecimiento] = useState<string>("");
-  const [mesa, setMesa] = useState<string>("");
 
-  const clearLocalFilters = useCallback(() => {
-    setDistrito("");
-    setSeccionElectoral("");
-    setSeccion("");
-    setMunicipio("");
-    setCircuito("");
-    setEstablecimiento("");
-    setMesa("");
+  const [district, setDistrict] = useState<KeyValueOrNull>(null);
+
+  const [electoralSections, setElectoralSections] = useState<KeyValue[]>([]);
+  const [electoralSection, setElectoralSection] = useState<KeyValueOrNull>(null);
+  const [section, setSection] = useState<KeyValueOrNull>(null);
+  const [sections, setSections] = useState<KeyValue[]>([]);
+  const [circuit, setCircuit] = useState<KeyValueOrNull>(null);
+  const [circuits, setCircuits] = useState<KeyValue[]>([]);
+  const [establishment, setEstablishment] = useState<KeyValueOrNull>(null);
+  const [establishments, setEstablishments] = useState<KeyValue[]>([]);
+  const [tables, setTables] = useState<KeyValue[]>([]);
+  const [table, setTable] = useState<KeyValueOrNull>(null)
+
+  const [distritoCompleteObject, setDistritoCompleteObject] = useState<DistritoResponse | null>(null);
+  const [circuitCompleteObject, setCircuitCompleteObject] = useState<CircuitoResponse | null>(null);
+  
+  const clearLocalFilters = () => {
+    setDistrict(null);
+    setElectoralSection(null)
+    setSection(null);
+    setCircuit(null);
+    setEstablishment(null);
+    setTable(null);
+  }
+
+  const aplicarFiltros = () => {
+    setFilters([
+      {
+        id: "N° Distrito",
+        name: "Distrito",
+        value: district?.label ?? '',
+      },
+      {
+        id: "N° seccionElectoral",
+        name: "Sección Electoral",
+        value:electoralSection?.label ?? '',
+      },
+      {
+        id: "N° seccion",
+        name: "Sección",
+        value:section?.label ?? '',
+      },
+      {
+        id: "N° circuito",
+        name: "Circuito",
+        value:circuit?.label ?? ''
+      },
+      {
+        id: "N° establecimiento",
+        name: "Establecimiento",
+        value:establishment?.label ?? ''
+      },
+      {
+        id: "N° mesa",
+        name: "Mesa",
+        value: table?.label ?? ''
+      },
+    ]);
+  }
+
+  const [error, setError] = useState(false);
+  const [loadingDistritoObject, setLoadingDistritoObject] = useState(false);
+  const [loadingCircuitObject, setLoadingCircuitObject] = useState(false);
+
+  const districtOnSelectionChange = (newDistrict: KeyValue) => {
+    const selectedDistrictValue = distritos[newDistrict.key as distrito];
+    setDistrict((prev) => {
+      if (prev?.key !== newDistrict.key) {
+        setDistritoCompleteObject(null);
+        setElectoralSection(null);
+        setSection(null);
+        setCircuit(null);
+        setCircuitCompleteObject(null);
+        setEstablishment(null);
+      }
+      if(!newDistrict.label) newDistrict.label = selectedDistrictValue
+      return newDistrict;
+    });
+  };
+
+  const getDistrictData = useCallback(async () => {
+    if (district) {
+      setLoadingDistritoObject(true);
+      setError(false);
+      try {
+        const distritoCompleteObject = await getDistritoById(district.key);
+        setDistritoCompleteObject(distritoCompleteObject);
+        console.log(distritoCompleteObject)
+        setElectoralSections(getElectoralSectionsFromDistritoObject(distritoCompleteObject));
+      } catch (error) {
+        setError(true);
+      } finally {
+        setLoadingDistritoObject(false);
+      }
+    } else {
+      setElectoralSections([]);
+    }
+  }, [district]);
+
+  useEffect(() => {
+    getDistrictData();
+  }, [getDistrictData]);
+
+  const electoralSectionOnSelectionChange = useCallback(
+    (newElectoralSection: KeyValue) => {
+      const selectedElectoralSection = electoralSections.find((es) => es.key == newElectoralSection.key);
+      setElectoralSection((prev) => {
+        if (newElectoralSection) {
+          if (newElectoralSection.label === null) {
+            newElectoralSection.label = 'Primera';
+          }
+          if (prev?.key !== newElectoralSection.key) {
+            setSection(null);
+            setCircuit(null);
+            setCircuitCompleteObject(null);
+            setEstablishment(null);
+          }
+          if(!newElectoralSection.label) newElectoralSection.label = selectedElectoralSection?.label ?? 'Primera'
+          return newElectoralSection;
+        } else {
+          setSection(null);
+          setCircuit(null);
+          setCircuitCompleteObject(null);
+          setEstablishment(null);
+          return null;
+        }
+      });
+    },
+    [electoralSections]
+  );
+
+  useEffect(() => {
+    if (electoralSection?.key && !electoralSection?.label && electoralSections?.length) {
+      electoralSectionOnSelectionChange(electoralSection);
+    }
+  }, [electoralSections, electoralSectionOnSelectionChange]);
+
+  useEffect(() => {
+    if (distritoCompleteObject && electoralSection) {
+      setSections(getSectionsByElectoralSectionId(distritoCompleteObject, electoralSection.key));
+    } else {
+      setSections([]);
+    }
+  }, [electoralSection, distritoCompleteObject]);
+
+  const sectionOnSelectionChange = useCallback(
+    (newSection: KeyValue) => {
+      setSection((prev) => {
+        const selectedSection = sections.find((sc) => sc.key == newSection.key);
+        if (selectedSection) {
+          if (selectedSection.label === null) {
+            selectedSection.label = 'Primera';
+          }
+          if (prev?.key !== newSection.key) {
+            setCircuit(null);
+            setCircuitCompleteObject(null);
+            setEstablishment(null);
+          }
+          if(!newSection.label) newSection.label = selectedSection.label;
+          return newSection;
+        } else {
+          setCircuit(null);
+          setCircuitCompleteObject(null);
+          setEstablishment(null);
+          return null;
+        }
+      });
+    },
+    [sections]
+  );
+
+  useEffect(() => {
+    if (section?.key && !section?.label && sections?.length) {
+      sectionOnSelectionChange(section);
+    }
+  }, [sections, sectionOnSelectionChange]);
+
+  useEffect(() => {
+    if (section && distritoCompleteObject && electoralSection) {
+      setCircuits(getCircuitsBySectionId(distritoCompleteObject, electoralSection.key, section.key));
+    } else {
+      setCircuits([]);
+    }
+  }, [section, electoralSection, distritoCompleteObject]);
+
+  const circuitOnSelectionChange = (newCircuit: KeyValue) => {
+    setCircuit((prev) => {
+      const selectedCircuit = circuits.find((ci) => ci.key == newCircuit.key);
+      if (selectedCircuit) {
+        if (selectedCircuit.label === null) {
+          selectedCircuit.label = 'Primera';
+        }
+        if (prev?.key !== newCircuit.key) {
+          setCircuitCompleteObject(null);
+          setEstablishment(null);
+        }
+        if(!newCircuit.label) newCircuit.label = selectedCircuit.label
+        return newCircuit;
+      } else {
+        setCircuitCompleteObject(null);
+        setEstablishment(null);
+        return null;
+      }
+    });
+  };
+
+  const getCircuitData = useCallback(async (district: Key, electoralSection: Key, section: Key, circuit: Key) => {
+    setLoadingCircuitObject(true);
+    try {
+      setError(false);
+      const circuitData = await getCircuitoById(district, electoralSection, section, circuit);
+      setCircuitCompleteObject(circuitData);
+      setEstablishments(getEstablishmentsByCircuitObject(circuitData));
+    } catch (error) {
+      setError(true);
+    } finally {
+      setLoadingCircuitObject(false);
+    }
   }, []);
 
-  const aplicarFiltros = useCallback(() => {
-    !distrito &&
-    !seccionElectoral &&
-    !seccion &&
-    !municipio &&
-    !circuito &&
-    !establecimiento &&
-    !mesa
-      ? null
-      : setFilters([
-          {
-            id: "N° Distrito",
-            name: "Distrito",
-            value:
-              districtsMock.find((d) => d.key === parseInt(distrito))?.label ||
-              "",
-          },
-          {
-            id: "N° seccionElectoral",
-            name: "Sección Electoral",
-            value:
-              electoralSectionsMock.find(
-                (e) => e.key === parseInt(seccionElectoral)
-              )?.label || "",
-          },
-          {
-            id: "N° seccion",
-            name: "Sección",
-            value:
-              sectionsMock.find((s) => s.key === parseInt(seccion))?.label ||
-              "",
-          },
-          {
-            id: "N° municipio",
-            name: "Municipio",
-            value:
-              municipalitiesMock.find((m) => m.key === parseInt(municipio))
-                ?.label || "",
-          },
-          {
-            id: "N° circuito",
-            name: "Circuito",
-            value:
-              circuitsMock.find((c) => c.key === parseInt(circuito))?.label ||
-              "",
-          },
-          {
-            id: "N° establecimiento",
-            name: "Establecimiento",
-            value:
-              establishmentsMock.find(
-                (e) => e.key === parseInt(establecimiento)
-              )?.label || "",
-          },
-          {
-            id: "N° mesa",
-            name: "Mesa",
-            value: tables.find((t) => t.key === parseInt(mesa))?.label || "",
-          },
-        ]);
-  }, [
-    distrito,
-    seccionElectoral,
-    seccion,
-    municipio,
-    circuito,
-    establecimiento,
-    mesa,
-    setFilters,
-  ]);
+  useEffect(() => {
+    if (circuit?.key && !circuit?.label && circuits?.length) {
+      circuitOnSelectionChange(circuit);
+    }
+  }, [circuits, circuitOnSelectionChange]);
+
+  useEffect(() => {
+    if (circuit && district && electoralSection && section && circuit) {
+      getCircuitData(district.key, electoralSection.key, section.key, circuit.key);
+    } else {
+      setEstablishments([]);
+    }
+  }, [circuit, section, electoralSection, district]);
+
+  const establishmentOnSelectionChange = useCallback(
+    (newEstablishment: KeyValue) => {
+      const selectedEstablishment = establishments.find((es) => es.key == newEstablishment.key);
+      if (selectedEstablishment) {
+        if (!newEstablishment.label) newEstablishment.label = establishment?.label ?? 'Primera';
+        setEstablishment(newEstablishment);
+      } else {
+        setEstablishment(null);
+      }
+    },
+    [establishments]
+  );
+
+  useEffect(() => {
+    if (establishment?.key && !establishment?.label && establishments?.length) {
+      establishmentOnSelectionChange(establishment);
+    }
+  }, [establishments, establishmentOnSelectionChange]);
+
+  useEffect(() => {
+    if (establishment && circuitCompleteObject) {
+      setTables(getMesasByEstablishmentId(circuitCompleteObject, establishment.key));
+    } else {
+      setTables([]);
+    }
+  }, [establishment]);
 
   return (
     <>
@@ -112,47 +284,42 @@ const FilterPage: React.FC = () => {
           <div className="flex flex-col gap-4 py-2 " id="filter-list">
             <Selector
               label="Distrito"
-              onChange={(e) => setDistrito(e.target.value)}
-              options={districtsMock}
-              value={distrito}
+              onChange={(e) => districtOnSelectionChange(e)}
+              options={Object.entries(distritos).map(([key, value]) => ({ key: Number(key), label: value }))}
+              value={district}
             />
             <Selector
               label="Sección Electoral"
-              onChange={(e) => setSeccionElectoral(e.target.value)}
-              options={electoralSectionsMock}
-              value={seccionElectoral}
+              onChange={(e) => electoralSectionOnSelectionChange(e)}
+              options={electoralSections}
+              value={electoralSection}
             />
             <Selector
               label="Sección"
-              onChange={(e) => setSeccion(e.target.value)}
-              options={sectionsMock}
-              value={seccion}
-            />
-            <Selector
-              label="Municipio"
-              onChange={(e) => setMunicipio(e.target.value)}
-              options={municipalitiesMock}
-              value={municipio}
+              onChange={(e) => sectionOnSelectionChange(e)}
+              options={sections}
+              value={section}
             />
             <Selector
               label="Circuito"
-              onChange={(e) => setCircuito(e.target.value)}
-              options={circuitsMock}
-              value={circuito}
+              onChange={(e) => circuitOnSelectionChange(e)}
+              options={circuits}
+              value={circuit}
             />
             <Selector
               label="Establecimiento"
-              onChange={(e) => setEstablecimiento(e.target.value)}
-              options={establishmentsMock}
-              value={establecimiento}
+              onChange={(e) => establishmentOnSelectionChange(e)}
+              options={establishments}
+              value={establishment}
             />
             <Selector
               label="Mesa"
-              onChange={(e) => setMesa(e.target.value)}
+              onChange={(e) => setTable(e)}
               options={tables}
-              value={mesa}
+              value={table}
             />
           </div>
+         
           <div className="flex flex-1 flex-row gap-5 ">
             <Button
               appearance="outlined"
@@ -174,6 +341,8 @@ const FilterPage: React.FC = () => {
               Aplicar <ArrowRight size={20} />
             </Button>
           </div>
+          
+
         </section>
       </main>
     </>
